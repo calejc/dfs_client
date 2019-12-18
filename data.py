@@ -1,6 +1,6 @@
 from enum import Enum
 
-
+# Data 
 
 # ---------------------------------- #
 #    NaturalStatTrick data classes   #
