@@ -28,7 +28,16 @@ def get_slate(sportId, type):
             draft_group_id.append(x['draftGroupId'])
     r = requests.get(urls.draftables_url(draft_group_id[0])).json()
     for game in r['competitions']:
-        slate[game['name']] = {'home': {'abbreviation': game['homeTeam']['abbreviation'], 'id': game['homeTeam']['teamId']}, 'away': {'abbreviation': game['awayTeam']['abbreviation'], 'id': game['awayTeam']['teamId']}}
+        slate[game['name']] = {
+            'home': {
+                'abbreviation': game['homeTeam']['abbreviation'],
+                'id': game['homeTeam']['teamId']
+                },
+            'away': {
+                'abbreviation': game['awayTeam']['abbreviation'],
+                'id': game['awayTeam']['teamId']
+                }
+            }
         counter += 1
     return slate
 
