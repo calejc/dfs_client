@@ -13,7 +13,7 @@ DK_API_BASE = 'https://api.draftkings.com'
 DK_DRAFTGROUPS_PATH = '/draftgroups/v1/'
 #-------------------------------------------------------#
 NST_BASE = 'http://www.naturalstattrick.com'
-NST_TEAM_TABLE = '/teamtable.php?fromseason=20192020&thruseason=20192020&stype=2&sit={}&score={}&rate=y&team=all&loc={}&gpf={}&fd={}&td={}'
+NST_TEAM_TABLE = '/teamtable.php?fromseason=20192020&thruseason=20192020&stype=2&sit={SITUATION}&score={SCORE}&rate=y&team=all&loc={LOCATION}&gpf={GPF}&fd={START_DATE}&td={END_DATE}'
 #-------------------------------------------------------#
 LWL_BASE = 'https://leftwinglock.com'
 LWL_LOGIN = '/forum/index.php?login/login'
@@ -56,7 +56,14 @@ def nst_team_url(sit, score, loc, gpf, start_date, end_date):
         NST_BASE = NST_BASE,
         NST_TEAM_TABLE = NST_TEAM_TABLE
     )
-    return url.format(sit, score, loc, gpf, start_date, end_date)
+    return url.format(
+        SITUATION = sit,
+        SCORE = score,
+        LOCATION = loc,
+        GPF = gpf,
+        START_DATE = start_date,
+        END_DATE = end_date
+    )
 
 
 
@@ -94,16 +101,16 @@ def lwl_login_url():
     )
 
 
-def lwl_lines_url(TEAM_SLUG, STRENGTH, GAMETYPE):
+def lwl_lines_url(team_slug, strength, gametype):
     url = '{LWL_BASE}{LWL_LINES_BASE}{LWL_TEAM_PARAM}'.format(
         LWL_BASE = LWL_BASE,
         LWL_LINES_BASE = LWL_LINES_BASE,
         LWL_TEAM_PARAM = LWL_TEAM_PARAM
     )
     return url.format(
-        TEAM_SLUG = TEAM_SLUG,
-        STRENGTH = STRENGTH,
-        GAMETYPE = GAMETYPE
+        TEAM_SLUG = team_slug,
+        STRENGTH = strength,
+        GAMETYPE = gametype
     )
 
 

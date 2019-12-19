@@ -1,8 +1,9 @@
-import requests, os
+import requests, os, sys
+sys.path.append("..")
 from datetime import date, timedelta
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from urls import nst_team_url
+from helpers.urls import nst_team_url
 
 
 def drive(url):
@@ -45,3 +46,11 @@ def return_slug(team):
 def return_date(todays_date):
     start_date = todays_date - timedelta(days=14)
     return start_date
+
+def convert_odds(decimal):
+    american_odds = 0
+    if decimal >= 2:
+        american_odds = (decimal - 1) * 100
+    elif decimal <= 2:
+        american_odds = (-100)/(decimal - 1)
+    return round(american_odds, 0)

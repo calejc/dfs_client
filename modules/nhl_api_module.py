@@ -1,1 +1,2 @@
-import requests, json, urls
+import requests, json, sys
+sys.path.append('..')

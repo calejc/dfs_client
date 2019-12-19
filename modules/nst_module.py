@@ -1,6 +1,10 @@
-import json, urls, os, requests
-from data import nst_sit, nst_score, nst_rate, nst_loc, nst_gpf, nst_teams
-from utils import scrape_nst, scrape
+import sys
+sys.path.append('..')
+import helpers.utils as utils
+import helpers.urls as urls
+import data
+# from data import nst_sit, nst_score, nst_rate, nst_loc, nst_gpf, nst_teams
+# from utils import scrape_nst, scrape
 from bs4 import BeautifulSoup
 import pandas as pd
 

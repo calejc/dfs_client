@@ -1,7 +1,10 @@
-import requests, json, os, sys, csv, urls, pickle
+import requests, json, os, sys, csv, pickle
+sys.path.append('..')
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from utils import drive
+import helpers.utils as utils
+import helpers.urls as urls
+import pandas as pd
 
 
 # ---------- #
@@ -18,7 +21,9 @@ def get_slate(sportId, type):
     counter = 0
     draft_group_id = []
     slate = {}
-    soup = drive(urls.upcoming_draft_groups())
+    slate_x = {}
+    slate_y = {}
+    soup = utils.drive(urls.upcoming_draft_groups())
     body_div = soup.find('div', {'id': 'body'})
     show_json = body_div.find('div', {'id': 'show-json'})
     json_data = show_json.find('textarea').text
@@ -28,6 +33,20 @@ def get_slate(sportId, type):
             draft_group_id.append(x['draftGroupId'])
     r = requests.get(urls.draftables_url(draft_group_id[0])).json()
     for game in r['competitions']:
+        slate_y[counter] = {
+            'team': game['homeTeam']['abbreviation'],
+            'id': game['homeTeam']['teamId'],
+            'opp': game['awayTeam']['abbreviation'],
+            'opp_id': game['awayTeam']['teamId']
+        }
+        counter += 1
+        slate_y[counter] = {
+            'team': game['awayTeam']['abbreviation'],
+            'id': game['awayTeam']['teamId'],
+            'opp': game['homeTeam']['abbreviation'],
+            'opp_id': game['homeTeam']['teamId']
+        }
+        ############################################
         slate[game['name']] = {
             'home': {
                 'abbreviation': game['homeTeam']['abbreviation'],
@@ -38,9 +57,10 @@ def get_slate(sportId, type):
                 'id': game['awayTeam']['teamId']
                 }
             }
+        ############################################
         counter += 1
-    return slate
+    return slate_y
 
-
-
-#
+# x = get_slate(3, 'Classic')
+# df1 = pd.DataFrame.from_dict(x, orient='index')
+# print(df1)
