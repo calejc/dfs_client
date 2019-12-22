@@ -1,4 +1,4 @@
-import requests, os, sys
+import requests, os, sys, math
 sys.path.append("..")
 from datetime import date, timedelta
 from selenium import webdriver
@@ -43,10 +43,11 @@ def return_slug(team):
     return team.lower()
 
 # Must pass in todays_date as a datetime.date object
-def return_date(todays_date):
-    start_date = todays_date - timedelta(days=14)
+def return_date(todays_date, days):
+    start_date = todays_date - timedelta(days=days)
     return start_date
 
+# Convert decimal odds to traditional american odds
 def convert_odds(decimal):
     american_odds = 0
     if decimal >= 2:
@@ -54,3 +55,21 @@ def convert_odds(decimal):
     elif decimal <= 2:
         american_odds = (-100)/(decimal - 1)
     return round(american_odds, 0)
+
+# Return implied team totals for moneyline odds
+def team_total(odds, game_total):
+    # formula from squirrelPatrol on RG forum
+    # team_total = (game_total/4) + ((wp*game_total)/2)
+    if odds < 0:
+        wp = odds/(odds-100)
+    elif odds > 0:
+        wp = 100/(odds+100)
+    team_total = game_total / (((math.sqrt(1-wp))*(1 / math.sqrt(wp))) + 1)
+    return round(team_total, 2)
+
+def nfl_team_total(spread, game_total):
+    if spread < 0:
+        tm_total = ((game_total - (-1 * spread)) / 2) + (-1 * spread)
+    elif spread > 0:
+        tm_total = (game_total - spread) / 2
+    return round(tm_total, 2)
