@@ -4,14 +4,12 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 import helpers.utils as utils, helpers.urls as urls, pandas as pd, data
 
+
 # ---------- #
 #    TODO    #
 # ---------- #
 # - Scrape draftable players and their salaries
 
-
-
-# Sport IDs: Hockey=3, NFL=1
 
 
 def get_slate(sportId, type):
@@ -40,9 +38,9 @@ def get_slate(sportId, type):
     for game in r['competitions']:
         for x in data.TEAM_DATA:
             if game['homeTeam']['abbreviation'] in data.TEAM_DATA[x]['dk_abbreviation']:
-                team1 = data.TEAM_DATA[x]['name']
+                team1 = data.TEAM_DATA[x]['secondary_name']
             elif game['awayTeam']['abbreviation'] in data.TEAM_DATA[x]['dk_abbreviation']:
-                team2 = data.TEAM_DATA[x]['name']
+                team2 = data.TEAM_DATA[x]['secondary_name']
         slate[counter] = {
             'team': team1,
             'opp': game['awayTeam']['abbreviation']

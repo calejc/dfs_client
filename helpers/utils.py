@@ -57,8 +57,9 @@ def convert_odds(decimal):
     return round(american_odds, 0)
 
 # Return implied team totals for moneyline odds
+# Using Bill James' Pythagorean Expectation
 def team_total(odds, game_total):
-    # formula from squirrelPatrol on RG forum
+    # formula from squirrelPatrol on RG forum:
     # team_total = (game_total/4) + ((wp*game_total)/2)
     if odds < 0:
         wp = odds/(odds-100)
