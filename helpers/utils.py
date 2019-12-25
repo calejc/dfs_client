@@ -74,3 +74,12 @@ def nfl_team_total(spread, game_total):
     elif spread > 0:
         tm_total = (game_total - spread) / 2
     return roun
+
+def find_key(d, value):
+    for k, v in d.items():
+        if isinstance(v, dict):
+            p = find_key(v, value)
+            if p:
+                return [k] + p
+        elif v == value:
+            return [k]
