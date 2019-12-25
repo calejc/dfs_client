@@ -29,14 +29,14 @@ tmp = utils.scrape_nst(
 # print(columns)
 
 
-def advanced():
+def advanced(sit, score, loc, gpf, start_date, end_date):
     tmp = utils.scrape_nst(
-        data.nst_sit.EVEN_STRENGTH.value,
-        data.nst_score.ALL_SCORES.value,
-        data.nst_loc.HOME_AND_AWAY.value,
-        data.nst_gpf.LAST_TEN.value,
-        utils.return_date(dt.date.today(), 14),
-        dt.date.today()
+        sit,
+        score,
+        loc,
+        gpf,
+        start_date,
+        end_date
     )
 
     data_list = []
@@ -44,6 +44,7 @@ def advanced():
     tbody = table.find('tbody')
     for tr in tbody.find_all('tr'):
         team = [td for td in tr.find_all('td')[1]]
+        gp = [td for td in tr.find_all('td')[2]]
         cf60 = [td for td in tr.find_all('td')[10]]
         ca60 = [td for td in tr.find_all('td')[11]]
         cfRate = [td for td in tr.find_all('td')[12]]
@@ -78,9 +79,9 @@ def advanced():
         svRate = [td for td in tr.find_all('td')[70]]
         pdo = [td for td in tr.find_all('td')[71]]
 
-        new_data = team + cf60 + ca60 + cfRate + ff60 + fa60 + faRate + sf60 + sa60 + sfRate + gf60 + ga60 + gfRate + xgf60 + xga60 + scf60 + sca60 + scfRate + scgf60 + scga60 + scgfRate + scshRate + scsvRate + hdcf60 + hdca60 + hdcfRate + hdgf60 + hdga60 + hdgfRate + hdshRate + hdsvRate + shRate + svRate + pdo
+        new_data = team + gp + cf60 + ca60 + cfRate + ff60 + fa60 + faRate + sf60 + sa60 + sfRate + gf60 + ga60 + gfRate + xgf60 + xga60 + scf60 + sca60 + scfRate + scgf60 + scga60 + scgfRate + scshRate + scsvRate + hdcf60 + hdca60 + hdcfRate + hdgf60 + hdga60 + hdgfRate + hdshRate + hdsvRate + shRate + svRate + pdo
         data_list.append(new_data)
-    df = pd.DataFrame(data_list, columns = ['team', 'cf/60', 'ca/60', 'cf%', 'ff/60', 'fa/60', 'ff%', 'sf/60', 'sa/60', 'sf%', 'gf/60', 'ga/60', 'gf%', 'xgf/60', 'xga/60', 'scf/60', 'sca/60', 'scf%', 'scgf/60', 'scga/60', 'scgf%', 'scsh%', 'scsv%', 'hdcf/60', 'hdca/60', 'hdcf%', 'hdgf/60', 'hdga/60', 'hdgf%', 'hdsh%', 'hdsv%', 'sh%', 'sv%', 'pdo'])
+    df = pd.DataFrame(data_list, columns = ['team', 'gp', 'cf/60', 'ca/60', 'cf%', 'ff/60', 'fa/60', 'ff%', 'sf/60', 'sa/60', 'sf%', 'gf/60', 'ga/60', 'gf%', 'xgf/60', 'xga/60', 'scf/60', 'sca/60', 'scf%', 'scgf/60', 'scga/60', 'scgf%', 'scsh%', 'scsv%', 'hdcf/60', 'hdca/60', 'hdcf%', 'hdgf/60', 'hdga/60', 'hdgf%', 'hdsh%', 'hdsv%', 'sh%', 'sv%', 'pdo'])
     return df
 # df = advanced()
 # df1 = pd.DataFrame.from_dict(data.TEAM_DATA, orient='index')

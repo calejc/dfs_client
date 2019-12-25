@@ -73,4 +73,4 @@ def nfl_team_total(spread, game_total):
         tm_total = ((game_total - (-1 * spread)) / 2) + (-1 * spread)
     elif spread > 0:
         tm_total = (game_total - spread) / 2
-    return round(tm_total, 2)
+    return roun

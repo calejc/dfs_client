@@ -35,6 +35,16 @@ import data, helpers.urls as urls, pandas as pd, helpers.utils as utils, datetim
 
 
 
+# ---------- #
+#    TODO    #
+# ----------------------------------------- #
+#  - dont scrape games that are in progress #
+#    - get datetime from timestamp          #
+#    - get todays datetime                  #
+#    - compare, discarding ongoing games    #
+# ----------------------------------------- #
+
+
 
 def return_market(sport, region, market):
     url = urls.get_odds_url(sport, region, market)

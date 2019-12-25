@@ -30,17 +30,18 @@ load_dotenv()
 sportId = 3
 gameType = 'Classic'
 
+
+# ------------------------------------------------------------ #
+# ------------------------------------------------------------ #
 teams = []
 df_dk = dk.get_slate(3, 'Classic')
 df_odds = vegas.return_tm_totals('icehockey_nhl', 'eu', 'h2h')
 df_nst = nst.advanced()
 print(df_nst)
 df_slate = pd.merge(df_dk, df_odds, on='team', how='left')
-# df_slate = pd.merge(df_slate, df_nst)
-to_drop = ['Vegas Golden Knights', 'Arizona Coyotes']
-for team in to_drop:
-    df_slate = df_slate[df_slate.team != team]
-
-print(df_slate.reset_index(drop=True))
-# for team in df_slate['team']:
-    # teams.append(team)
+df_slate = pd.merge(df_slate, df_nst)
+print(df_slate)
+for team in df_slate['team']:
+    teams.append(team)
+# ------------------------------------------------------------ #
+# ------------------------------------------------------------ #
