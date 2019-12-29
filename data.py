@@ -1,6 +1,8 @@
 from enum import Enum
 
 # Data
+# Start of 2019 NHL season => 2019-10-02
+
 
 # ---------------------------------- #
 #    NaturalStatTrick data classes   #
@@ -50,12 +52,13 @@ class lwl_strengths(Enum):
 class lwl_gametypes(Enum):
     GAMEDAY = 'GD'
     MOST_RECENT = '1'
+    LAST_3 = '3'
 
 
 # -------------------------------- #
 #    DraftkingsAPI data classes    #
 # -------------------------------- #
-CLASSIC_IDS = [1, 72, 122, 98, 70, 94, 125, 21]
+CLASSIC_IDS = (1, 72, 122, 98, 70, 94, 125, 21)
 SHOWDOWN_IDS = []
 
 class dk_sport_ids(Enum):

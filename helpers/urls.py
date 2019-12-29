@@ -15,7 +15,7 @@ NHL_SHIFTS = '/stats/rest/shiftcharts?cayenneExp=gameId={GAME_ID}'
 #-------------------------------------------------------#
 NHL_API_BASE = 'https://statsapi.web.nhl.com/api/v1'
 NHL_API_TEAMS = '/teams'
-NHL_API_SCHEDULE = '/schedule'
+NHL_API_SCHEDULE = '/schedule?teamId={TEAM_ID}&startDate={START_DATE}&endDate={END_DATE}'
 NHL_API_TEAM_SCHEDULE = '?teamId={TEAM_ID}&startDate={START_DATE}&endDate={END_DATE}'
 #-------------------------------------------------------#
 DK_API_BASE = 'https://api.draftkings.com'
@@ -81,10 +81,15 @@ def nst_team_url(sit, score, loc, gpf, start_date, end_date):
 # ------------------ #
 #    NHL API URLs    #
 # ------------------ #
-def schedule_url():
-    return "{NHL_API_BASE}{NHL_API_SCHEDULE}".format(
+def schedule_url(teamId, startDate, endDate):
+    url = "{NHL_API_BASE}{NHL_API_SCHEDULE}".format(
         NHL_API_BASE = NHL_API_BASE,
         NHL_API_SCHEDULE = NHL_API_SCHEDULE
+    )
+    return url.format(
+        TEAM_ID = teamId,
+        START_DATE = startDate,
+        END_DATE = endDate
     )
 
 def shiftcharts_url(gameId):

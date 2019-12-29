@@ -14,6 +14,7 @@ import helpers.utils as utils, helpers.urls as urls, pandas as pd, data
 
 def get_slate(sportId, type):
     counter = 1
+    game_count = 1
     draft_group_id = []
     slate = {}
     soup = utils.drive(urls.upcoming_draft_groups_url())
@@ -42,17 +43,22 @@ def get_slate(sportId, type):
             elif game['awayTeam']['abbreviation'] in data.TEAM_DATA[x]['dk_abbreviation']:
                 team2 = data.TEAM_DATA[x]['secondary_name']
         slate[counter] = {
+            'game': game_count,
             'team': team1,
             'opp': game['awayTeam']['abbreviation']
         }
         counter += 1
         slate[counter] = {
+            'game': game_count,
             'team': team2,
             'opp': game['homeTeam']['abbreviation']
         }
         counter += 1
-
-
+        game_count += 1
 
     df_slate = pd.DataFrame.from_dict(slate, orient='index')
+
+    # Until can figure out how to merge multi index, need to use the following indexing code after all merging is done:
+    # df_slate = df_slate.set_index(['game', 'team'])
+    
     return df_slate

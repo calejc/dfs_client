@@ -1,9 +1,9 @@
 import requests, os, sys, math
 sys.path.append("..")
-from datetime import date, timedelta
+import datetime as dt
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from helpers.urls import nst_team_url
+from dfs.helpers.urls import nst_team_url
 
 
 def drive(url):
@@ -73,13 +73,44 @@ def nfl_team_total(spread, game_total):
         tm_total = ((game_total - (-1 * spread)) / 2) + (-1 * spread)
     elif spread > 0:
         tm_total = (game_total - spread) / 2
-    return roun
+    return round(tm_total, 2)
 
-def find_key(d, value):
+def return_alt(d, value, requested_alt):
     for k, v in d.items():
         if isinstance(v, dict):
-            p = find_key(v, value)
+            p = return_alt(v, value, requested_alt)
             if p:
-                return [k] + p
+                # return [k] + p
+                return d[k][requested_alt]
         elif v == value:
-            return [k]
+            return k
+
+def strip_date(date):
+    return date.replace('-', '')[2:]
+
+def game_ids(sportId, date, counter):
+    # y = strip_date(str(dt.date.today()))
+    y = strip_date(str(date))
+    if counter < 10:
+        x = '0' + str(counter)
+    else:
+        x = str(counter)
+    id = str(sportId) + y + x
+    return id
+
+
+# Patriots
+# Chiefs
+#
+# Raiders
+# Steelers
+# Titans
+# Niners
+# Texans
+#
+# Packers
+# Saints
+#
+# Eagles
+# Cowboys
+# Seahawks
