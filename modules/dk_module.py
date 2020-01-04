@@ -13,9 +13,10 @@ import helpers.utils as utils, helpers.urls as urls, pandas as pd, data
 
 
 def get_slate(sportId, type):
-    counter = 1
-    game_count = 1
+    dd = data.TEAM_DATA
+    counter, game_count, id_counter = 1, 1, 1
     draft_group_id = []
+    dg_ids = {}
     slate = {}
     soup = utils.drive(urls.upcoming_draft_groups_url())
     body_div = soup.find('div', {'id': 'body'})
@@ -34,24 +35,38 @@ def get_slate(sportId, type):
     for x in newDict['draftGroups']:
         if x['sportId'] == sportId and 'startTimeSuffix' not in x and 'Featured' in x['allTags'] and x['contestType']['contestTypeId'] in check_list:
             draft_group_id.append(x['draftGroupId'])
-    # print(draft_group_id)
+            dg_ids[id_counter] = {
+                'id': x['draftGroupId'],
+                'start': utils.strip_datetime(x['minStartTime'])
+            }
+
+    # Need to identify the next starting slate, and make sure we have the correct slate ID. Not sure best route here.
+    # for id in dg_ids:
+        # idx = id
+
+    print(draft_group_id)
+    print(dg_ids)
+    # print(dg_ids[1]['start'])
+    # print(draft_group_id[0])
+    print(urls.draftables_url(32648))
     r = requests.get(urls.draftables_url(draft_group_id[0])).json()
     for game in r['competitions']:
+        print(game)
         for x in data.TEAM_DATA:
             if game['homeTeam']['abbreviation'] in data.TEAM_DATA[x]['dk_abbreviation']:
                 team1 = data.TEAM_DATA[x]['secondary_name']
             elif game['awayTeam']['abbreviation'] in data.TEAM_DATA[x]['dk_abbreviation']:
                 team2 = data.TEAM_DATA[x]['secondary_name']
         slate[counter] = {
-            'game': game_count,
             'team': team1,
-            'opp': game['awayTeam']['abbreviation']
+            'opp': utils.return_alt(dd, game['awayTeam']['abbreviation'], 'nst_abbreviation')
+            # 'opp': game['awayTeam']['abbreviation']
         }
         counter += 1
         slate[counter] = {
-            'game': game_count,
             'team': team2,
-            'opp': game['homeTeam']['abbreviation']
+            'opp': utils.return_alt(dd, game['homeTeam']['abbreviation'], 'nst_abbreviation')
+            # 'opp': game['homeTeam']['abbreviation']
         }
         counter += 1
         game_count += 1
@@ -60,5 +75,5 @@ def get_slate(sportId, type):
 
     # Until can figure out how to merge multi index, need to use the following indexing code after all merging is done:
     # df_slate = df_slate.set_index(['game', 'team'])
-    
+
     return df_slate
