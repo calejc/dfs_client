@@ -20,6 +20,7 @@ NHL_API_TEAM_SCHEDULE = '?teamId={TEAM_ID}&startDate={START_DATE}&endDate={END_D
 #-------------------------------------------------------#
 DK_API_BASE = 'https://api.draftkings.com'
 DK_DRAFTGROUPS_PATH = '/draftgroups/v1/'
+DK_SPORTS = '/sites/US-DK/sports/v1/sports?format=json'
 #-------------------------------------------------------#
 NST_BASE = 'http://www.naturalstattrick.com'
 NST_TEAM_TABLE = '/teamtable.php?fromseason=20192020&thruseason=20192020&stype=2&sit={SITUATION}&score={SCORE}&rate=y&team=all&loc={LOCATION}&gpf={GPF}&fd={START_DATE}&td={END_DATE}'
@@ -33,7 +34,10 @@ ODDS_API_BASE = 'https://api.the-odds-api.com/v3'
 ODDS_API_SPORTS = '/sports/?apiKey={API_KEY}&all=1'
 ODDS_API_ODDS = '/odds/?apiKey={API_KEY}&sport={SPORT}&region={REGION}&mkt={MARKET}'
 #-------------------------------------------------------#
-
+NBA_API_BASE = 'http://data.nba.net'
+NBA_TEAMS = '/prod/v2/2019/teams.json'
+NBA_ENDPOINTS = '/prod/v2/today.json'
+#-------------------------------------------------------#
 
 # --------------------- #
 #    Draftkings URLs    #
@@ -56,6 +60,12 @@ def draftables_url(draft_group_id):
         DK_API_BASE = DK_API_BASE,
         DK_DRAFTGROUPS_PATH = DK_DRAFTGROUPS_PATH,
         draft_group_id=draft_group_id
+    )
+
+def dk_sports_url():
+    return '{DK_API_BASE}{DK_SPORTS}'.format(
+        DK_API_BASE = DK_API_BASE,
+        DK_SPORTS = DK_SPORTS
     )
 
 
@@ -158,6 +168,15 @@ def get_odds_url(sport, region, market):
         MARKET = market
     )
 
+
+# ------------------ #
+#    NBA API URLs    #
+# ------------------ #
+def nba_teams_url():
+    return '{NBA_API_BASE}{NBA_TEAMS}'.format(
+        NBA_API_BASE = NBA_API_BASE,
+        NBA_TEAMS = NBA_TEAMS
+    )
 
 
 

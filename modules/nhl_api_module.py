@@ -19,7 +19,7 @@ season_start_date = '2019-10-02'
 
 today = datetime.date.today()
 two_weeks = utils.return_date(today, 21)
-url = urls.teams_schedule_url(data.TEAM_DATA['LAK']['nhl_id'], two_weeks, str(today))
+url = urls.teams_schedule_url(data.NHL_TEAMS['LAK']['nhl_id'], two_weeks, str(today))
 print(url)
 
 

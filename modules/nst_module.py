@@ -84,5 +84,5 @@ def advanced(sit, score, loc, gpf, start_date, end_date):
     df = pd.DataFrame(data_list, columns = ['team', 'gp', 'cf/60', 'ca/60', 'cf%', 'ff/60', 'fa/60', 'ff%', 'sf/60', 'sa/60', 'sf%', 'gf/60', 'ga/60', 'gf%', 'xgf/60', 'xga/60', 'scf/60', 'sca/60', 'scf%', 'scgf/60', 'scga/60', 'scgf%', 'scsh%', 'scsv%', 'hdcf/60', 'hdca/60', 'hdcf%', 'hdgf/60', 'hdga/60', 'hdgf%', 'hdsh%', 'hdsv%', 'sh%', 'sv%', 'pdo'])
     return df
 # df = advanced()
-# df1 = pd.DataFrame.from_dict(data.TEAM_DATA, orient='index')
+# df1 = pd.DataFrame.from_dict(data.NHL_TEAMS, orient='index')
 # print(df1)

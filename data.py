@@ -61,9 +61,6 @@ class lwl_gametypes(Enum):
 CLASSIC_IDS = (1, 72, 122, 98, 70, 94, 125, 21)
 SHOWDOWN_IDS = []
 
-class dk_sport_ids(Enum):
-    NFL = 1
-    NHL = 2
 
 
 # -------------------------- #
@@ -72,10 +69,68 @@ class dk_sport_ids(Enum):
 
 
 
+# ----------------------------------------- #
+#          Sports IDs, keys, names          #
+#  Keys are named by 'title' from odds API  #
+# ----------------------------------------- #
+SPORTS = {
+    'NFL':{
+        'dk_id': 1,
+        'dk_name': 'NFL',
+        'odds_key': 'americanfootball_nfl'
+    },
+    'NHL':{
+        'dk_id': 3,
+        'dk_name': 'NHL',
+        'odds_key': 'icehockey_nhl'
+    },
+    'NBA':{
+        'dk_id': 4,
+        'dk_name': 'NBA',
+        'odds_key': 'basketball_nba'
+    },
+    'MLB':{
+        'dk_id': 2,
+        'dk_name': 'MLB',
+        'odds_key': 'baseball_mlb'
+    },
+    'GOLF':{
+        'dk_id': 13,
+        'dk_name': 'GOLF'
+    },
+    'EPL':{
+        'dk_id': 12,
+        'dk_name': 'SOC',
+        'odds_key': 'soccer_epl'
+    },
+    'NCAAF':{
+        'dk_id': 5,
+        'dk_name': 'CFB',
+        'odds_key': 'americanfootball_ncaaf'
+    },
+    'NCAAB':{
+        'dk_id': 6,
+        'dk_name': 'CBB',
+        'odds_key': 'basketball_ncaab'
+    },
+    'MMA':{
+        'dk_id': 9,
+        'dk_name': 'MMA',
+        'odds_key': 'mma_mixed_martial_arts'
+    }
+}
+
+
+
+
 # ---------------------------------------- #
 #    All Team Ids, Names, Abbreviations    #
 # ---------------------------------------- #
-TEAM_DATA = {
+
+# --------- #
+#    NHL    #
+# --------- #
+NHL_TEAMS = {
     'NJD': {
      'dk_abbreviation': 'NJ',
      'dk_team_id': 4964,
@@ -387,6 +442,346 @@ TEAM_DATA = {
      'nst_abbreviation': 'VGK',
     }
 }
+
+# ------------------------------- #
+# ------------------------------- #
+
+# --------- #
+#    NBA    #
+# --------- #
+NBA_TEAMS = {
+  'ATL': {
+    'tricode': 'ATL',
+    'urlName': 'hawks',
+    'teamShortName': 'Atlanta',
+    'abbreviation': 'ATL',
+    'dk_abbreviation': 'ATL',
+    'name': 'Atlanta Hawks',
+    'secondary_name': 'Atlanta Hawks',
+    'nba_id': '1610612737',
+    'dk_team_id': 0
+  },
+  'BOS': {
+    'tricode': 'BOS',
+    'urlName': 'celtics',
+    'teamShortName': 'Boston',
+    'abbreviation': 'BOS',
+    'dk_abbreviation': 'BOS',
+    'name': 'Boston Celtics',
+    'secondary_name': 'Boston Celtics',
+    'nba_id': '1610612738',
+    'dk_team_id': 0
+  },
+  'BKN': {
+    'tricode': 'BKN',
+    'urlName': 'nets',
+    'teamShortName': 'Brooklyn',
+    'abbreviation': 'BKN',
+    'dk_abbreviation': 'BKN',
+    'name': 'Brooklyn Nets',
+    'secondary_name': 'Brooklyn Nets',
+    'nba_id': '1610612751',
+    'dk_team_id': 0
+  },
+  'CHA': {
+    'tricode': 'CHA',
+    'urlName': 'hornets',
+    'teamShortName': 'Charlotte',
+    'abbreviation': 'CHA',
+    'dk_abbreviation': 'CHA',
+    'name': 'Charlotte Hornets',
+    'secondary_name': 'Charlotte Hornets',
+    'nba_id': '1610612766',
+    'dk_team_id': 0
+  },
+  'CHI': {
+    'tricode': 'CHI',
+    'urlName': 'bulls',
+    'teamShortName': 'Chicago',
+    'abbreviation': 'CHI',
+    'dk_abbreviation': 'CHI',
+    'name': 'Chicago Bulls',
+    'secondary_name': 'Chicago Bulls',
+    'nba_id': '1610612741',
+    'dk_team_id': 0
+  },
+  'CLE': {
+    'tricode': 'CLE',
+    'urlName': 'cavaliers',
+    'teamShortName': 'Cleveland',
+    'abbreviation': 'CLE',
+    'dk_abbreviation': 'CLE',
+    'name': 'Cleveland Cavaliers',
+    'secondary_name': 'Cleveland Cavaliers',
+    'nba_id': '1610612739',
+    'dk_team_id': 0
+  },
+  'DAL': {
+    'tricode': 'DAL',
+    'urlName': 'mavericks',
+    'teamShortName': 'Dallas',
+    'abbreviation': 'DAL',
+    'dk_abbreviation': 'DAL',
+    'name': 'Dallas Mavericks',
+    'secondary_name': 'Dallas Mavericks',
+    'nba_id': '1610612742',
+    'dk_team_id': 0
+  },
+  'DEN': {
+    'tricode': 'DEN',
+    'urlName': 'nuggets',
+    'teamShortName': 'Denver',
+    'abbreviation': 'DEN',
+    'dk_abbreviation': 'DEN',
+    'name': 'Denver Nuggets',
+    'secondary_name': 'Denver Nuggets',
+    'nba_id': '1610612743',
+    'dk_team_id': 0
+  },
+  'DET': {
+    'tricode': 'DET',
+    'urlName': 'pistons',
+    'teamShortName': 'Detroit',
+    'abbreviation': 'DET',
+    'dk_abbreviation': 'DET',
+    'name': 'Detroit Pistons',
+    'secondary_name': 'Detroit Pistons',
+    'nba_id': '1610612765',
+    'dk_team_id': 0
+  },
+  'GSW': {
+    'tricode': 'GSW',
+    'urlName': 'warriors',
+    'teamShortName': 'Golden State',
+    'abbreviation': 'GSW',
+    'dk_abbreviation': 'GS',
+    'name': 'Golden State Warriors',
+    'secondary_name': 'Golden State Warriors',
+    'nba_id': '1610612744',
+    'dk_team_id': 0
+  },
+  'HOU': {
+    'tricode': 'HOU',
+    'urlName': 'rockets',
+    'teamShortName': 'Houston',
+    'abbreviation': 'HOU',
+    'dk_abbreviation': 'HOU',
+    'name': 'Houston Rockets',
+    'secondary_name': 'Houston Rockets',
+    'nba_id': '1610612745',
+    'dk_team_id': 0
+  },
+  'IND': {
+    'tricode': 'IND',
+    'urlName': 'pacers',
+    'teamShortName': 'Indiana',
+    'abbreviation': 'IND',
+    'dk_abbreviation': 'IND',
+    'name': 'Indiana Pacers',
+    'secondary_name': 'Indiana Pacers',
+    'nba_id': '1610612754',
+    'dk_team_id': 0
+  },
+  'LAC': {
+    'tricode': 'LAC',
+    'urlName': 'clippers',
+    'teamShortName': 'LA Clippers',
+    'abbreviation': 'LAC',
+    'dk_abbreviation': 'LAC',
+    'name': 'LA Clippers',
+    'secondary_name': 'Los Angeles Clippers',
+    'nba_id': '1610612746',
+    'dk_team_id': 0
+  },
+  'LAL': {
+    'tricode': 'LAL',
+    'urlName': 'lakers',
+    'teamShortName': 'L.A. Lakers',
+    'abbreviation': 'LAL',
+    'dk_abbreviation': 'LAL',
+    'name': 'Los Angeles Lakers',
+    'secondary_name': 'Los Angeles Lakers',
+    'nba_id': '1610612747',
+    'dk_team_id': 0
+  },
+  'MEM': {
+    'tricode': 'MEM',
+    'urlName': 'grizzlies',
+    'teamShortName': 'Memphis',
+    'abbreviation': 'MEM',
+    'dk_abbreviation': 'MEM',
+    'name': 'Memphis Grizzlies',
+    'secondary_name': 'Memphis Grizzlies',
+    'nba_id': '1610612763',
+    'dk_team_id': 0
+  },
+  'MIA': {
+    'tricode': 'MIA',
+    'urlName': 'heat',
+    'teamShortName': 'Miami',
+    'abbreviation': 'MIA',
+    'dk_abbreviation': 'MIA',
+    'name': 'Miami Heat',
+    'secondary_name': 'Miami Heat',
+    'nba_id': '1610612748',
+    'dk_team_id': 0
+  },
+  'MIL': {
+    'tricode': 'MIL',
+    'urlName': 'bucks',
+    'teamShortName': 'Milwaukee',
+    'abbreviation': 'MIL',
+    'dk_abbreviation': 'MIL',
+    'name': 'Milwaukee Bucks',
+    'secondary_name': 'Milwaukee Bucks',
+    'nba_id': '1610612749',
+    'dk_team_id': 0
+  },
+  'MIN': {
+    'tricode': 'MIN',
+    'urlName': 'timberwolves',
+    'teamShortName': 'Minnesota',
+    'abbreviation': 'MIN',
+    'dk_abbreviation': 'MIN',
+    'name': 'Minnesota Timberwolves',
+    'secondary_name': 'Minnesota Timberwolves',
+    'nba_id': '1610612750',
+    'dk_team_id': 0
+  },
+  'NOP': {
+    'tricode': 'NOP',
+    'urlName': 'pelicans',
+    'teamShortName': 'New Orleans',
+    'abbreviation': 'NOP',
+    'dk_abbreviation': 'NOP',
+    'name': 'New Orleans Pelicans',
+    'secondary_name': 'New Orleans Pelicans',
+    'nba_id': '1610612740',
+    'dk_team_id': 0
+  },
+  'NYK': {
+    'tricode': 'NYK',
+    'urlName': 'knicks',
+    'teamShortName': 'New York',
+    'abbreviation': 'NYK',
+    'dk_abbreviation': 'NYK',
+    'name': 'New York Knicks',
+    'secondary_name': 'New York Knicks',
+    'nba_id': '1610612752',
+    'dk_team_id': 0
+  },
+  'OKC': {
+    'tricode': 'OKC',
+    'urlName': 'thunder',
+    'teamShortName': 'Oklahoma City',
+    'abbreviation': 'OKC',
+    'dk_abbreviation': 'OKC',
+    'name': 'Oklahoma City Thunder',
+    'secondary_name': 'Oklahoma City Thunder',
+    'nba_id': '1610612760',
+    'dk_team_id': 0
+  },
+  'ORL': {
+    'tricode': 'ORL',
+    'urlName': 'magic',
+    'teamShortName': 'Orlando',
+    'abbreviation': 'ORL',
+    'dk_abbreviation': 'ORL',
+    'name': 'Orlando Magic',
+    'secondary_name': 'Orlando Magic',
+    'nba_id': '1610612753',
+    'dk_team_id': 0
+  },
+  'PHI': {
+    'tricode': 'PHI',
+    'urlName': 'sixers',
+    'teamShortName': 'Philadelphia',
+    'abbreviation': 'PHI',
+    'dk_abbreviation': 'PHI',
+    'name': 'Philadelphia 76ers',
+    'secondary_name': 'Philadelphia 76ers',
+    'nba_id': '1610612755',
+    'dk_team_id': 0
+  },
+  'PHX': {
+    'tricode': 'PHX',
+    'urlName': 'suns',
+    'teamShortName': 'Phoenix',
+    'abbreviation': 'PHX',
+    'dk_abbreviation': 'PHO',
+    'name': 'Phoenix Suns',
+    'secondary_name': 'Phoenix Suns',
+    'nba_id': '1610612756',
+    'dk_team_id': 0
+  },
+  'POR': {
+    'tricode': 'POR',
+    'urlName': 'blazers',
+    'teamShortName': 'Portland',
+    'abbreviation': 'POR',
+    'dk_abbreviation': 'POR',
+    'name': 'Portland Trail Blazers',
+    'secondary_name': 'Portland Trail Blazers',
+    'nba_id': '1610612757',
+    'dk_team_id': 0
+  },
+  'SAC': {
+    'tricode': 'SAC',
+    'urlName': 'kings',
+    'teamShortName': 'Sacramento',
+    'abbreviation': 'SAC',
+    'dk_abbreviation': 'SAC',
+    'name': 'Sacramento Kings',
+    'secondary_name': 'Sacramento Kings',
+    'nba_id': '1610612758',
+    'dk_team_id': 0
+  },
+  'SAS': {
+    'tricode': 'SAS',
+    'urlName': 'spurs',
+    'teamShortName': 'San Antonio',
+    'abbreviation': 'SAS',
+    'dk_abbreviation': 'SA',
+    'name': 'San Antonio Spurs',
+    'secondary_name': 'San Antonio Spurs',
+    'nba_id': '1610612759',
+    'dk_team_id': 0
+  },
+  'TOR': {
+    'tricode': 'TOR',
+    'urlName': 'raptors',
+    'teamShortName': 'Toronto',
+    'abbreviation': 'TOR',
+    'dk_abbreviation': 'TOR',
+    'name': 'Toronto Raptors',
+    'secondary_name': 'Toronto Raptors',
+    'nba_id': '1610612761',
+    'dk_team_id': 0
+  },
+  'UTA': {
+    'tricode': 'UTA',
+    'urlName': 'jazz',
+    'teamShortName': 'Utah',
+    'abbreviation': 'UTA',
+    'dk_abbreviation': 'UTA',
+    'name': 'Utah Jazz',
+    'secondary_name': 'Utah Jazz',
+    'nba_id': '1610612762',
+    'dk_team_id': 0
+  },
+  'WAS': {
+    'tricode': 'WAS',
+    'urlName': 'wizards',
+    'teamShortName': 'Washington',
+    'abbreviation': 'WAS',
+    'dk_abbreviation': 'WAS',
+    'name': 'Washington Wizards',
+    'secondary_name': 'Washington Wizards',
+    'nba_id': '1610612764',
+    'dk_team_id': 0
+  }
+}
+
 
 
 

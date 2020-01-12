@@ -14,35 +14,6 @@ import data, helpers.urls as urls, pandas as pd, helpers.utils as utils, datetim
 # ------------------------------------- #
 
 
-# ------------------------------- #
-#            API Notes            #
-# ------------------------------- #
-#  Markets:                       #
-#   - 'totals' for O/U            #
-#   - 'spreads' for handicap      #
-#   - 'h2h' for moneyline         #
-#  Sports:                        #
-#   - 'icehockey_nhl'             #
-#   - 'americanfootball_ncaaf'    #
-#   - 'americanfootball_nfl'      #
-#   - 'basketball_nba'            #
-#   - 'basketball_ncaab'          #
-#   - 'baseball_mlb'              #
-#  Regions:                       #
-#   - eu  -> pinnacle             #
-#   - uk  -> william hill         #
-# ------------------------------- #
-# betonlineag
-# bookmaker
-# mybookieag
-# intertops
-# bet365
-# betfair
-# willhill
-
-
-
-
 # ---------- #
 #    TODO    #
 # ------------------------------------------------ #
@@ -67,12 +38,27 @@ import data, helpers.urls as urls, pandas as pd, helpers.utils as utils, datetim
 # ------------------------------------------------ #
 
 
-def return_market(sport, region, market):
+def return_market(sport_key, region, mkt):
     # DB_PATH = os.path.join('..', 'odds.db')
     # conn = sql3.connect(DB_PATH)
     # curs = conn.cursor()
-    dd = data.TEAM_DATA
-    url = urls.get_odds_url(sport, region, market)
+    if sport_key == 'icehockey_nhl':
+        sportId = 3
+        dd = data.NHL_TEAMS
+    elif sport_key == 'basketball_nba':
+        sportId = 4
+        dd = data.NBA_TEAMS
+    elif sport_key == 'americanfootball_nfl':
+        sportId = 1
+        dd = data.NFL_TEAMS
+    elif sport_key == 'baseball_mlb':
+        sportId = 2
+        dd = data.MLB_TEAMS
+    else:
+        print("No data dictionary for {}".format(sport_key))
+        return
+
+    url = urls.get_odds_url(sport_key, region, mkt)
     # print(url)
     data_r = requests.get(url)
     data_dict = data_r.json()
@@ -82,20 +68,17 @@ def return_market(sport, region, market):
         print("Beware! only {} calls left for the month!".format(remaining))
         print("=============================================\n")
 
-    sport_id = 3
     games, odds, counter, game_counter = {}, {}, 1, 0
     upcoming, contains_pinnacle, contains_secondary = True, False, False
-    if sport == 'icehockey_nhl':
-        sport_id = 3
     prev_date = None
     for game in data_dict['data']:
         game_date =  dt.datetime.fromtimestamp(game['commence_time']).date()
         if prev_date is not None:
             if game_date > prev_date:
                 game_counter = 0
-        game_id = utils.game_ids(3, game_date, game_counter)
+        game_id = utils.game_ids(sportId, game_date, game_counter)
         game_counter += 1
-        
+
         # Compare timestamps to remove active games.
         # Can remove this after we get the DK Slates set
         game_ts = game['commence_time']
@@ -110,6 +93,7 @@ def return_market(sport, region, market):
             if game['sites_count'] > 0:
                 game_index = data_dict['data'].index(game)
                 for site in game['sites']:
+                    # If Site in List of Sites: ->
                     if 'pinnacle' in site['site_key']:
                         pinnacle_index = game['sites'].index(site)
                         contains_pinnacle = True
@@ -123,7 +107,7 @@ def return_market(sport, region, market):
 
                 for team in data_dict['data'][game_index]['teams']:
                     team_index = data_dict['data'][game_index]['teams'].index(team)
-                    if market == 'totals':
+                    if mkt == 'totals':
                         teams_odds = None
                         overUnder = game['sites'][site_index]['odds']['totals']['points'][0]
                         odds[counter] = {
@@ -132,39 +116,39 @@ def return_market(sport, region, market):
                             # 'pinnacle': contains_pinnacle,
                             'team': team,
                             '{}'.format(
-                                market
+                                mkt
                             ): overUnder
                         }
                         counter += 1
-                    elif market == 'h2h':
+                    elif mkt == 'h2h':
                         overUnder = None
-                        teams_odds = game['sites'][site_index]['odds'][market][team_index]
+                        teams_odds = game['sites'][site_index]['odds'][mkt][team_index]
                         odds[counter] = {
                             'game_id': game_id,
                             # 'date': game_date,
                             # 'pinnacle': contains_pinnacle,
                             'team': team,
                             '{}'.format(
-                                market
+                                mkt
                             ): utils.convert_odds(teams_odds)
                         }
                         counter += 1
-                    elif market == 'spreads':
+                    elif mkt == 'spreads':
                         overUnder = None
-                        teams_odds = game['sites'][site_index]['odds'][market]['points'][team_index]
+                        teams_odds = game['sites'][site_index]['odds'][mkt]['points'][team_index]
                         odds[counter] = {
                             'game_id': game_id,
                             # 'date': game_date,
                             # 'pinnacle': contains_pinnacle,
                             'team': team,
                             '{}'.format(
-                                market
+                                mkt
                             ): teams_odds
                         }
                         counter += 1
                     # try:
-                    #     curs.execute('INSERT INTO odds (game_id, team, team_open, team_live, game_open, game_live) VALUES ("{gid}", "{tm}", "{market}", "{market}", "{totals}", "{totals}");'.\
-                    #     format(gid=game_id, tm=team, market=teams_odds, totals=overUnder))
+                    #     curs.execute('INSERT INTO odds (game_id, team, team_open, team_live, game_open, game_live) VALUES ("{gid}", "{tm}", "{mkt}", "{mkt}", "{totals}", "{totals}");'.\
+                    #     format(gid=game_id, tm=team, mkt=teams_odds, totals=overUnder))
                     #     conn.commit()
                     # except sql3.IntegrityError:
                     #     print("ERROR::ID found in Database already")
@@ -174,12 +158,11 @@ def return_market(sport, region, market):
     for g in odds:
         t = odds[g]['team']
         gid = odds[g]['game_id']
-        opp = utils.check(odds, gid, t)
-        odds[g]['opp'] = utils.return_alt(dd, opp, 'nst_abbreviation')
+        odds[g]['opp'] = utils.check(odds, gid, t)
+        # odds[g]['opp'] = utils.return_alt(dd, opp, 'nst_abbreviation')
 
     df_odds = pd.DataFrame.from_dict(odds, orient='index')
-    df_odds = df_odds[['game_id', 'team', 'opp', market]]
-    # print(df_odds)
+    df_odds = df_odds[['game_id', 'team', 'opp', mkt]]
     return df_odds
 # return_market('icehockey_nhl', 'eu', 'h2h')
 
@@ -189,21 +172,44 @@ def return_market(sport, region, market):
 
 
 
-# ----------------------------------------------------------------- #
-# ----------------------------------------------------------------- #
 # Returns a df with teams and their implied team totals
-def return_tm_totals(sport, region, market, slate_df):
-    tm_totals = {}
-    counter = 1
+def return_tm_totals(sport, slate_df, *args):
+    tm_totals, counter, arg_df = {}, 1, 0
+    sport_key = data.SPORTS[sport]['odds_key']
+    # sportId = data.SPORTS[sport]['dk_id']
+    print(sportId)
+    default_h2h = ['NHL', 'MLB']
+    default_spreads = ['NBA', 'NFL', 'NCAAB', 'NCAAF']
+    markets, regions = ['h2h', 'spreads'], ['us', 'eu', 'uk']
+    region = 'eu' # Default
+
+    for r in regions:
+        if r in args:
+            region = r
+    if sport in default_h2h:
+        mkt = 'h2h'
+    elif sport in default_spreads:
+        mkt = 'spreads'
+
+    for m in markets:
+        if m in args:
+            mkt = m
+
+
+    # print(urls.get_odds_url(sport_key, region, mkt))
+
+
     df = pd.merge(
-        return_market(sport, region, market),
-        return_market(sport, region, 'totals'),
+        return_market(sport_key, region, mkt),
+        return_market(sport_key, region, 'totals'),
         on = ['game_id', 'team', 'opp']
     )
-    new_df = slate_df.merge(df, how='left', on=['team', 'opp'])
-    new_df = new_df[['game_id', 'team', 'opp', market, 'totals']]
+    # print(df)
+    new_df = pd.merge(slate_df, df, how='left', on=['team', 'opp'])
+    new_df = new_df[['game_id', 'team', 'opp', mkt, 'totals']]
+    # print(new_df)
     for index, row in new_df.iterrows():
-        if sport == 'americanfootball_nfl' or sport == 'basketball_nba' or sport == 'basketball_ncaab' or sport == 'americanfootball_ncaaf':
+        if sport_key == 'americanfootball_nfl' or sport_key == 'basketball_nba' or sport_key == 'basketball_ncaab' or sport_key == 'americanfootball_ncaaf':
             t = utils.spreads_team_total(float(row['spreads']), float(row['totals']))
         else:
             t = utils.team_total(float(row['h2h']), float(row['totals']))
@@ -214,8 +220,5 @@ def return_tm_totals(sport, region, market, slate_df):
         counter += 1
     tm_totals = pd.DataFrame.from_dict(tm_totals, orient='index')
     df_odds = new_df.merge(tm_totals, how='left', on=['team'])
-    df_odds = df_odds.drop([market, 'totals'], axis=1)
+    df_odds = df_odds.drop([mkt, 'totals', 'opp'], axis=1)
     return df_odds
-
-# x = return_tm_totals('icehockey_nhl', 'eu', 'h2h', 'df')
-# print(x)
