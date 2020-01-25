@@ -10,18 +10,15 @@ import helpers.utils as utils, helpers.urls as urls, pandas as pd, data
 # ---------- #
 # - Scrape draftable players and their salaries
 # - Ensure we have the next upcoming dg_id
+#   -> Add timestamps to list. use Min() to find earliest.
+#   -> Using min timestamp, check dict for key(the dg_id)
+# - modulize the dict builder instead of ifelse statements
+
+
 
 
 def get_slate(sportId, *args):
-    if sportId == 3:
-        dd = data.NHL_TEAMS
-    elif sportId == 4:
-        dd = data.NBA_TEAMS
-    elif sportId == 1:
-        dd = data.NFL_TEAMS
-    else:
-        dd = {}
-
+    dd = utils.return_alt(data.SPORTS, sportId, 'sport_data')
     check_list = data.CLASSIC_IDS
     counter, game_count, id_counter = 1, 1, 1
     draft_group_id, dg_ids, slate = [], {}, {}

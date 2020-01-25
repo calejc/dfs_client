@@ -15,6 +15,7 @@ NHL_SHIFTS = '/stats/rest/shiftcharts?cayenneExp=gameId={GAME_ID}'
 #-------------------------------------------------------#
 NHL_API_BASE = 'https://statsapi.web.nhl.com/api/v1'
 NHL_API_TEAMS = '/teams'
+NHL_API_TEAM_ROSTER = '/teams?expand=team.roster'
 NHL_API_SCHEDULE = '/schedule?teamId={TEAM_ID}&startDate={START_DATE}&endDate={END_DATE}'
 NHL_API_TEAM_SCHEDULE = '?teamId={TEAM_ID}&startDate={START_DATE}&endDate={END_DATE}'
 #-------------------------------------------------------#
@@ -38,6 +39,17 @@ NBA_API_BASE = 'http://data.nba.net'
 NBA_TEAMS = '/prod/v2/2019/teams.json'
 NBA_ENDPOINTS = '/prod/v2/today.json'
 #-------------------------------------------------------#
+MLB_API_BASE = 'https://statsapi.mlb.com/api/v1'
+MLB_API_TEAMS = '/teams'
+#-------------------------------------------------------#
+
+def mlb_teams_url():
+    return '{MLB_API_BASE}{MLB_API_TEAMS}'.format(
+        MLB_API_BASE=MLB_API_BASE,
+        MLB_API_TEAMS=MLB_API_TEAMS
+    )
+
+
 
 # --------------------- #
 #    Draftkings URLs    #
@@ -115,6 +127,12 @@ def teams_url():
     return '{NHL_API_BASE}{NHL_API_TEAMS}'.format(
         NHL_API_BASE = NHL_API_BASE,
         NHL_API_TEAMS = NHL_API_TEAMS
+    )
+
+def rosters_url():
+    return '{NHL_API_BASE}{NHL_API_TEAM_ROSTER}'.format(
+        NHL_API_BASE = NHL_API_BASE,
+        NHL_API_TEAM_ROSTER = NHL_API_TEAM_ROSTER
     )
 
 def teams_schedule_url(teamId, startDate, endDate):

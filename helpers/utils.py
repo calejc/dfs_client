@@ -1,6 +1,6 @@
 import requests, os, sys, math
 sys.path.append("..")
-import datetime as dt
+import datetime as dt, data
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from helpers.urls import nst_team_url
@@ -36,6 +36,7 @@ def parse_link(link):
     link = link.split()
     name = link[1] + " " + link[2]
     return name.lower().replace(" ", "-")
+        
 
 def return_slug(team):
     team = team.replace('.', '')
@@ -64,6 +65,8 @@ def team_total(odds, game_total):
     elif odds > 0:
         wp = 100/(odds+100)
     team_total = game_total / (((math.sqrt(1-wp))*(1 / math.sqrt(wp))) + 1)
+    if odds == 0:
+        team_total = 0
     # team_total = game_total / ((((1-wp)**(1/1.927))*(1 / (wp**(1/1.927)))) + 1)
     return round(team_total, 2)
 
@@ -72,6 +75,8 @@ def spreads_team_total(spread, game_total):
         tm_total = ((game_total - (-1 * spread)) / 2) + (-1 * spread)
     elif spread > 0:
         tm_total = (game_total - spread) / 2
+    elif spread == 0:
+        tm_total = 0
     return round(tm_total, 2)
 
 def return_alt(d, value, requested_alt):
@@ -84,7 +89,6 @@ def return_alt(d, value, requested_alt):
             return k
 
 def strip_datetime(value):
-    # tmp = dt.replace('T', '')[:10]
     tmp = value.replace('T', ' ')[:19]
     return dt.datetime.strptime(tmp, '%Y-%m-%d %H:%M:%S')
 

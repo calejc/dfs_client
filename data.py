@@ -1,7 +1,7 @@
 from enum import Enum
 
 # Data
-# Start of 2019 NHL season => 2019-10-02
+# Note: Start of 2019 NHL season => 2019-10-02
 
 
 # ---------------------------------- #
@@ -69,58 +69,13 @@ SHOWDOWN_IDS = []
 
 
 
-# ----------------------------------------- #
-#          Sports IDs, keys, names          #
-#  Keys are named by 'title' from odds API  #
-# ----------------------------------------- #
-SPORTS = {
-    'NFL':{
-        'dk_id': 1,
-        'dk_name': 'NFL',
-        'odds_key': 'americanfootball_nfl'
-    },
-    'NHL':{
-        'dk_id': 3,
-        'dk_name': 'NHL',
-        'odds_key': 'icehockey_nhl'
-    },
-    'NBA':{
-        'dk_id': 4,
-        'dk_name': 'NBA',
-        'odds_key': 'basketball_nba'
-    },
-    'MLB':{
-        'dk_id': 2,
-        'dk_name': 'MLB',
-        'odds_key': 'baseball_mlb'
-    },
-    'GOLF':{
-        'dk_id': 13,
-        'dk_name': 'GOLF'
-    },
-    'EPL':{
-        'dk_id': 12,
-        'dk_name': 'SOC',
-        'odds_key': 'soccer_epl'
-    },
-    'NCAAF':{
-        'dk_id': 5,
-        'dk_name': 'CFB',
-        'odds_key': 'americanfootball_ncaaf'
-    },
-    'NCAAB':{
-        'dk_id': 6,
-        'dk_name': 'CBB',
-        'odds_key': 'basketball_ncaab'
-    },
-    'MMA':{
-        'dk_id': 9,
-        'dk_name': 'MMA',
-        'odds_key': 'mma_mixed_martial_arts'
-    }
-}
 
-
+# ---------------- #
+#    Odds sites    #
+# ---------------- #
+US_SITES = ('pointsbetus', 'betonlineag', 'bookmaker', 'mybookieag', 'intertops', 'betfair', 'lowvig')
+UK_SITES = ('mybookieag', 'betfair', 'willhill', 'paddypower')
+EU_SITES = ('betonlineag', 'bookmaker', 'mybookieag', 'intertops', 'betfair', 'pinnacle')
 
 
 # ---------------------------------------- #
@@ -205,7 +160,7 @@ NHL_TEAMS = {
      'dk_abbreviation': 'MON',
      'dk_team_id': 4963,
      'nhl_id': 8,
-     'name': 'Montreal Canadiens',
+     'name': 'Montréal Canadiens',
      'secondary_name': 'Montreal Canadiens',
      'slug': 'montreal-canadiens',
      'nhl_abbreviation': 'MTL',
@@ -781,6 +736,73 @@ NBA_TEAMS = {
     'dk_team_id': 0
   }
 }
+
+
+# --------- #
+#    MLB    #
+# --------- #
+MLB_TEAMS = {
+
+}
+
+
+
+
+# ----------------------------------------- #
+#          Sports IDs, keys, names          #
+#  Keys are named by 'title' from odds API  #
+# ----------------------------------------- #
+SPORTS = {
+    'NFL':{
+        'dk_id': 1,
+        'dk_name': 'NFL',
+        'odds_key': 'americanfootball_nfl'
+    },
+    'NHL':{
+        'dk_id': 3,
+        'dk_name': 'NHL',
+        'odds_key': 'icehockey_nhl',
+        'sport_data': NHL_TEAMS
+    },
+    'NBA':{
+        'dk_id': 4,
+        'dk_name': 'NBA',
+        'odds_key': 'basketball_nba',
+        'sport_data': NBA_TEAMS
+    },
+    'MLB':{
+        'dk_id': 2,
+        'dk_name': 'MLB',
+        'odds_key': 'baseball_mlb',
+        'sport_data': MLB_TEAMS
+    },
+    'GOLF':{
+        'dk_id': 13,
+        'dk_name': 'GOLF'
+    },
+    'EPL':{
+        'dk_id': 12,
+        'dk_name': 'SOC',
+        'odds_key': 'soccer_epl'
+    },
+    'NCAAF':{
+        'dk_id': 5,
+        'dk_name': 'CFB',
+        'odds_key': 'americanfootball_ncaaf'
+    },
+    'NCAAB':{
+        'dk_id': 6,
+        'dk_name': 'CBB',
+        'odds_key': 'basketball_ncaab'
+    },
+    'MMA':{
+        'dk_id': 9,
+        'dk_name': 'MMA',
+        'odds_key': 'mma_mixed_martial_arts'
+    }
+}
+
+
 
 
 
